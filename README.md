@@ -1,6 +1,6 @@
-# mpvue-template
+# {{ project }}
 
-> mpvue模版
+> {{ description }}
 
 
 ## 相关依赖
