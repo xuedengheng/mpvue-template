@@ -9,8 +9,8 @@
     "dev": "node build/dev-server.js",
     "test": "node build/dev-server.js test",
     "prod": "node build/dev-server.js production",
-    "build": "node build/build.js",
-    "build-test": "node build/build.js test",
+    "build": "rimraf dist && node build/build.js",
+    "build-test": "rimraf dist && node build/build.js test",
     "lint": "eslint --ext .js,.vue src"
   },
   "pre-commit": [
