@@ -14,14 +14,14 @@ function getEntry (rootSrc, pattern) {
   var files = glob.sync(path.resolve(rootSrc, pattern))
   return files.reduce((res, file) => {
     var info = path.parse(file)
-    var key = info.dir.slice(rootSrc.length + 1) + '/' + info.name
+    var key = info.dir.slice(rootSrc.length + 1)
     res[key] = path.resolve(file)
     return res
   }, {})
 }
 
 const appEntry = { app: resolve('./src/main.js') }
-const pagesEntry = getEntry(resolve('./src'), 'pages/**/**.js')
+const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
 const entry = Object.assign({}, appEntry, pagesEntry)
 
 module.exports = {
