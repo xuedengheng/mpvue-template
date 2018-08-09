@@ -20,8 +20,8 @@ function getEntry (rootSrc, pattern) {
   }, {})
 }
 
-const appEntry = { app: resolve('./src/example.js') }
-const pagesEntry = getEntry(resolve('./src'), 'pages/**/example.js')
+const appEntry = { app: resolve('./src/main.js') }
+const pagesEntry = getEntry(resolve('./src'), 'pages/**/**.js')
 const entry = Object.assign({}, appEntry, pagesEntry)
 
 module.exports = {
@@ -41,7 +41,12 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue': 'mpvue',
-      '@': resolve('src')
+      '@': resolve('src'),
+      'components': resolve('src/components'),
+      'api': resolve('src/api'),
+      'common': resolve('src/common'),
+      'wx': resolve('src/common/js/wx'),
+      'flyio': 'flyio/dist/npm/wx'
     },
     symlinks: false,
     aliasFields: ['mpvue', 'weapp', 'browser'],
