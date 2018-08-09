@@ -7,11 +7,10 @@
   "scripts": {
     "start": "node build/dev-server.js",
     "dev": "node build/dev-server.js",
-    "test": "node build/dev-server.test.js",
-    "prod": "node build/dev-server.prod.js",
-    "build:test": "node build/build.test.js",
-    "build:prod": "node build/build.prod.js",
-    "fix": "eslint --ext .js,.vue src",
+    "test": "node build/dev-server.js test",
+    "prod": "node build/dev-server.js production",
+    "build": "node build/build.js",
+    "build-test": "node build/build.js test",
     "lint": "eslint --ext .js,.vue src"
   },
   "pre-commit": [
@@ -21,7 +20,6 @@
   "dependencies": {
     "flyio": "^0.5.9",
     "mpvue": "^1.0.11",
-    "mpvue-router-patch": "^0.2.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -55,10 +53,9 @@
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.18.0",
-    "mpvue-entry": "^1.2.2",
-    "mpvue-loader": "^1.0.13",
-    "mpvue-template-compiler": "^1.0.11",
+    "mpvue-loader": "1.0.13",
     "mpvue-webpack-target": "^1.0.0",
+    "mpvue-template-compiler": "^1.0.11",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^2.0.0",
     "portfinder": "^1.0.13",

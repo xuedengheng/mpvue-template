@@ -6,7 +6,7 @@
 ## 相关依赖
 
 * flyio - 同时支持浏览器、小程序、Node、Weex 及快应用的基于 Promise 的跨平台请求库
-* mpvue-entry - 集中式页面配置，不再需要重复编辑各页面的 main.js 文件
+* mpvue-entry - 集中式页面配置，不再需要重复编辑各页面的 example.js 文件
 * mpvue-router-patch - 在 mpvue 中使用 vue-router 兼容的路由写法
 
 ## Tips
@@ -52,7 +52,7 @@ export default new Vuex.Store({
 })
 ```
 
-在 `src/main.js` 中引用
+在 `src/example.js` 中引用
 
 ``` js
 import Vue from 'vue'

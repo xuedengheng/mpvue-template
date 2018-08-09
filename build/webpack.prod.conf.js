@@ -10,7 +10,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-var env = config.build.env
+var env = process.env.BUILD_ENV === 'production' ? require('../config/prod.env') : require('../config/test.env')
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -47,12 +47,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
-    // generate dist example.html with correct asset hash for caching.
-    // you can customize output by editing /example.html
+    // generate dist index.html with correct asset hash for caching.
+    // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     // new HtmlWebpackPlugin({
-    //   filename: config.build.example,
-    //   template: 'example.html',
+    //   filename: config.build.index,
+    //   template: 'index.html',
     //   inject: true,
     //   minify: {
     //     removeComments: true,

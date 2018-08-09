@@ -17,6 +17,9 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 //   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 // })
 
+const env = process.env.BUILD_ENV === 'production' ? require('../config/prod.env') :
+  process.env.BUILD_ENV === 'test' ? require('../config/test.env') : require('../config/dev.env')
+
 module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -81,8 +84,8 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     // new HtmlWebpackPlugin({
-    //   filename: 'example.html',
-    //   template: 'example.html',
+    //   filename: 'index.html',
+    //   template: 'index.html',
     //   inject: true
     // }),
     new FriendlyErrorsPlugin()
