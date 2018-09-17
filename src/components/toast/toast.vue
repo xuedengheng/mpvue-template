@@ -28,8 +28,6 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
-
   .toast
     position: fixed
     z-index: 99999
@@ -42,7 +40,8 @@
     text-align: center
     background-color: rgba(54, 53, 71, .9)
     .content
+      font-size: 14px
+      font-family: 'PingFangSC-Regular'
       line-height: 20px
-      font-size: $font-size-medium
-      color: $color-background-ff
+      color: #FFFFFF
 </style>

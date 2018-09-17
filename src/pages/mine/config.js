@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import Page from './example'
+import Page from './mine'
 
 const page = new Vue(Page)
 page.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '栗子'
+    navigationBarTitleText: '我的'
   }
 }

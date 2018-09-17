@@ -46,7 +46,8 @@ module.exports = {
       'api': resolve('src/api'),
       'common': resolve('src/common'),
       'wx': resolve('src/common/js/wx'),
-      'flyio': 'flyio/dist/npm/wx'
+      'flyio': 'flyio/dist/npm/wx',
+      'utils': resolve('src/utils')
     },
     symlinks: false,
     aliasFields: ['mpvue', 'weapp', 'browser'],
