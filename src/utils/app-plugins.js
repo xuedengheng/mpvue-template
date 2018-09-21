@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import wx from 'wx'
-import WeIM from 'we-im/index'
-import {ERR_OK, baseURL} from 'src/api/config'
-import * as wechat from 'src/common/js/wechat'
-import * as cos from 'we-cos/upload'
-import * as cosFileType from 'we-cos/fileConfig'
+import WeIM from './we-im/index'
+import {ERR_OK, baseURL} from 'api/config'
+import * as wechat from 'common/js/wechat'
+import * as cos from './we-cos/upload'
+import * as cosFileType from './we-cos/fileConfig'
 
 // // 不需要自动重置data数据的页面
 const unResetPage = []

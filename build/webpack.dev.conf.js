@@ -88,6 +88,10 @@ module.exports = merge(baseWebpackConfig, {
     //   template: 'index.html',
     //   inject: true
     // }),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin({
+      compilationSuccessInfo: {
+        messages: [`THE APPLICATION SERVER PORT IS ${config.dev.port}`],
+      }
+    })
   ]
 })
