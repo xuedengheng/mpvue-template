@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV
 
 const version = ``
-
+// todo 测试专用记得更新
 const DEV = {
   api: 'https://zhidian-api.jerryf.cn',
   image: 'https://img.jerryf.cn/defaults',
