@@ -1,6 +1,5 @@
 // 将所有的接口请求都通过这个统一输出
-import example from './example'
+import jwt from './jwt'
 
-export default {
-  ...example
-}
+// 授权
+export const Jwt = jwt
