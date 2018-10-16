@@ -82,7 +82,9 @@
         try {
           let filePaths = await wecropper.getCropperImage()
           let res = await this.$cos.uploadFiles(this.$cosFileType.IMAGE_TYPE, [filePaths])
-          this._updateImgHandle(res)
+          // this._updateImgHandle(res)
+          getApp().globalData.imgUrl = res[0].url // todo
+          this.pageBack()
         } catch (e) {
           this.confirmFlag = false
           e && this.$wechat.showToast(e.message)
@@ -143,24 +145,24 @@
     .btn
       width: 100px
       height: 32px
-      font-family: $font-family-regular
-      font-size: $font-size-14
+      font-family: PingFangSC-Regular
+      font-size: 14px
       &.cancel
-        background: $color-FFFFFF
-        border: 2px solid $color-374B63
+        background: #FFFFFF
+        border: 2px solid #374B63
         box-shadow: 0 4px 12px 4px rgba(55, 75, 99, 0.15)
         border-radius: 100px;
-        color: $color-374B63
+        color: #374B63
         layout()
         justify-content: center
         align-items: center
       &.confirm
         margin-left: 15px
-        background: $color-F94C5F
+        background: #F94C5F
         box-shadow: 0 4px 16px 0 rgba(249, 76, 95, 0.30)
         border-radius: 100px
         layout()
         justify-content: center
         align-items: center
-        color: $color-FFFFFF
+        color: #FFFFFF
 </style>
