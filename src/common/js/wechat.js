@@ -220,3 +220,12 @@ export function getSystemInfo() {
     })
   })
 }
+
+/**
+ * 全局toast
+ * @returns {Promise<any>}
+ */
+export function showToast(title, duration = 1500, mask = true, icon = 'none') {
+  if (!title) return
+  wx.showToast({title, icon, duration, mask})
+}

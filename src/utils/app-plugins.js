@@ -6,14 +6,14 @@ import { ERR_OK, baseURL } from 'api/config'
 import * as wechat from 'common/js/wechat'
 import * as cos from './we-cos/upload'
 import {fileType} from './we-cos/fileConfig'
-import common from 'common/mixins/base'
-import base from 'base'
+import baseCommon from 'common/mixins/base-common'
+import base from 'common/mixins/base'
 
 // 定义插件
 const AppPlugin = {
   install: function () {
     Vue.mixin(base)
-    Vue.mixin(common)
+    Vue.mixin(baseCommon)
     if (!Vue.prototype.$webimHandler) {
       Vue.prototype.$webimHandler = new WeIM()
     }

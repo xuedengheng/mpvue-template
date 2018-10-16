@@ -3,6 +3,7 @@
     <button @click="editorAvatar">切图</button>
     <we-paint ref="wePaint" @drawDone="drawDone"></we-paint>
     <button @click="createQrCode">生成二维码</button>
+    <button @click="testToast">toast</button>
     <img style="width: 100%" mode="widthFix" v-if="testSrc" :src="testSrc" alt="">
   </div>
 
@@ -30,6 +31,9 @@
       }
     },
     methods: {
+      testToast() {
+        this.$wechat.showToast('123123')
+      },
       createQrCode() {
         let str = JSON.stringify({ 'code': 8297128291, 'store_id': 8 }) // todo
         let code = qr.imageSync(str, { type: 'png' })

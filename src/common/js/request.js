@@ -10,7 +10,8 @@ const COMMON_HEADER = {}
 
 // 请求拦截器
 fly.interceptors.request.use((request) => {
-  request.headers['Authorization'] = wx.getStorageSync('token')
+  request.headers['Authorization'] = wx.getStorageSync('token') // todo
+  request.headers['Current-Shop'] = wx.getStorageSync('shopId') || wx.getStorageSync('defaultShop') // todo 测试专用记得删除
   return request
 })
 
