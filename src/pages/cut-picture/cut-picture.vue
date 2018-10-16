@@ -85,7 +85,7 @@
           this._updateImgHandle(res)
         } catch (e) {
           this.confirmFlag = false
-          e && this.$showToast(e.message)
+          e && this.$wechat.showToast(e.message)
         }
       },
       pageBack(number = 1) {
@@ -98,7 +98,7 @@
             Guide.setShopImage({image_id: id}).then(res => {
               this.$wechat.hideLoading()
               if (res.error !== this.$ERR_OK) {
-                this.$showToast(res.message)
+                this.$$wechat.showToast(res.message)
                 return
               }
               this.$wechat.tipSuccess('修改图片成功')

@@ -67,16 +67,6 @@ export function resolvePageDetail(url, options) {
 }
 
 /**
- * 判断是否为tab页面
- * @param path
- * @returns {*}
- */
-export function checkIsTabPage(path) {
-  const TAB_REG = /(pages\/guide)|(pages\/shop)|(pages\/dynamic)|(pages\/mine)/
-  return TAB_REG.test(path)
-}
-
-/**
  * 解析永久二维码参数
  * @param scene
  * @returns {{}}
