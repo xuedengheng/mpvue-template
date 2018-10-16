@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from '@/store'
 import App from './App'
 import './utils/app-plugins'
+import './utils/env-clear'
 
 Vue.config.productionTip = false
 App.mpType = 'app'
@@ -25,3 +26,5 @@ export default {
     }
   }
 }
+
+export const _this = app

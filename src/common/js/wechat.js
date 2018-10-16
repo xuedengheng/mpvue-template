@@ -24,9 +24,15 @@ export function getStorage (key) {
   })
 }
 
-export function getLocation (type) {
+export function getLocation (type, callback) {
   return new Promise((resolve, reject) => {
-    wx.getLocation({type: type, success: resolve, fail: reject})
+    wx.getLocation({type: type, success: resolve, fail: reject, complete: callback})
+  })
+}
+
+export function openLocation(data) {
+  return new Promise((resolve, reject) => {
+    wx.openLocation({...data, success: resolve, fail: reject})
   })
 }
 
@@ -135,6 +141,82 @@ export function previewImage (data = {urls: [], current: ''}) {
       fail: (err) => {
         reject(err)
       }
+    })
+  })
+}
+
+/**
+ * canvasContext.draw 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
+ * @returns {Promise<any>}
+ */
+export function draw (ctx, reserve = false) {
+  return new Promise((resolve, reject) => {
+    ctx.draw(reserve, (res) => {
+      if (res.errMsg === 'drawCanvas:ok') {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    })
+  })
+}
+
+/**
+ * 把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
+ * @returns {Promise<any>}
+ */
+export function canvasToTempFilePath (data, ctx) {
+  return new Promise((resolve, reject) => {
+    wx.canvasToTempFilePath({
+      ...data,
+      success: resolve,
+      fail: reject
+    }, ctx)
+  })
+}
+
+/**
+ * 保存图片到系统相册
+ * @returns {Promise<any>}
+ */
+export function saveImageToPhotosAlbum (data = {filePath: ''}) {
+  return new Promise((resolve, reject) => {
+    wx.saveImageToPhotosAlbum({
+      ...data,
+      success: resolve,
+      fail: (err) => {
+        reject(err)
+        setTimeout(() => {
+          wx.openSetting()
+        }, 1000)
+      }
+    })
+  })
+}
+
+/**
+ * 下载文件
+ * @returns {Promise<any>}
+ */
+export function downloadFile (data = {url: ''}) {
+  return new Promise((resolve, reject) => {
+    wx.downloadFile({
+      ...data,
+      success: resolve,
+      fail: reject
+    })
+  })
+}
+
+/**
+ * 获取设备信息
+ * @returns {Promise<any>}
+ */
+export function getSystemInfo() {
+  return new Promise((resolve, reject) => {
+    wx.getSystemInfo({
+      success: resolve,
+      fail: reject
     })
   })
 }
