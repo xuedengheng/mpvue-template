@@ -21,33 +21,33 @@
         确定
       </div>
     </div>
-    <toast ref="toast"></toast>
   </article>
 </template>
 
 <script type="text/ecmascript-6">
   import MpvueCropper from 'components/mpvue-cropper/mpvue-cropper'
   import { CUT_CONFIG } from './contants'
-  import Toast from 'components/toast/toast'
+  import { Guide } from 'api'
 
   let wecropper
 
   export default {
     name: 'CutPicture',
     components: {
-      MpvueCropper,
-      Toast
+      MpvueCropper
     },
     data() {
       return {
         cropperOpt: null,
         src: null,
         show: false,
-        confirmFlag: false
+        confirmFlag: false,
+        cutType: ''
       }
     },
     onLoad(option) {
       let cutType = option.cutType === 'undefined' ? 'default' : option.cutType
+      this.cutType = cutType
       this.show = true
       this.src = '' + getApp().globalData.imgUrl
       this.cropperOpt = CUT_CONFIG[cutType]
@@ -78,28 +78,45 @@
           return
         }
         this.confirmFlag = true
-        this.wechat.showLoading('正在裁切图片')
+        this.$wechat.showLoading('正在裁切图片')
         try {
           let filePaths = await wecropper.getCropperImage()
-          let res = await this.cos.uploadFiles(this.cosFileType.IMAGE_TYPE, [filePaths])
-          this.wechat.hideLoading()
-          this.pageBack()
-          console.log(res)
+          let res = await this.$cos.uploadFiles(this.$cosFileType.IMAGE_TYPE, [filePaths])
+          this._updateImgHandle(res)
         } catch (e) {
           this.confirmFlag = false
-          console.error('获取图片失败', e)
+          e && this.$showToast(e.message)
         }
       },
       pageBack(number = 1) {
-        this.wx.navigateBack({delta: number})
+        this.$wx.navigateBack({delta: number})
+      },
+      _updateImgHandle(res) {
+        switch (this.cutType) {
+          case 'avatar':
+            let id = res[0].id
+            Guide.setShopImage({image_id: id}).then(res => {
+              this.$wechat.hideLoading()
+              if (res.error !== this.$ERR_OK) {
+                this.$showToast(res.message)
+                return
+              }
+              this.$wechat.tipSuccess('修改图片成功')
+              setTimeout(() => {
+                this.pageBack()
+              }, 530)
+            }).catch(e => console.error(e))
+            break
+          default:
+            break
+        }
       }
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
-  @import "~common/stylus/mixin"
+  @import "~common/stylus/private"
 
   .cut-picture
     fill-box(fixed)

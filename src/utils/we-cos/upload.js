@@ -16,6 +16,9 @@ const {IMAGE_TYPE, VIDEO_TYPE} = fileType
 let cos = new COS({
   getAuthorization: function (params, callback) {
     Upload.getUploadSign().then((res) => {
+      if (res.error !== ERR_OK) {
+        throw new Error(res)
+      }
       callback(res.data.sign)
     }).catch((err) => {
       if (err) {
@@ -37,9 +40,12 @@ export default function chooseFiles(fileType, count = 9, showProcess, processCal
   return new Promise((resolve, reject) => {
     fileController(fileType, count).then((filePaths) => {
       showProcess && showProcess()
-      let type = fileType === IMAGE_TYPE ? 'image' : 'video'
+      let type = fileType === VIDEO_TYPE ? 'video' : 'image'
       let requests = filePaths.map((filePath) => {
         return Upload.getUploadParam().then((res) => {
+          if (res.error !== ERR_OK) {
+            throw new Error(res)
+          }
           const data = res.data
           if (data) {
             let params = reorganizeParams(data, filePath, processCallBack)
@@ -73,9 +79,12 @@ export default function chooseFiles(fileType, count = 9, showProcess, processCal
 export function uploadFiles(fileType, filePaths, showProcess, processCallBack) {
   return new Promise((resolve, reject) => {
     showProcess && showProcess()
-    let type = fileType === IMAGE_TYPE ? 'image' : 'video'
+    let type = fileType === VIDEO_TYPE ? 'video' : 'image'
     let requests = filePaths.map((filePath) => {
       return Upload.getUploadParam().then((res) => {
+        if (res.error !== ERR_OK) {
+          throw new Error(res)
+        }
         const data = res.data
         if (data) {
           let params = reorganizeParams(data, filePath, processCallBack)

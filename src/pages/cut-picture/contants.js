@@ -19,36 +19,23 @@ export const CUT_CONFIG = {
     scale: 2.5,
     zoom: 8,
     cut: {
-      x: (width - width * 0.7) / 2,
-      y: (height - width * 0.7) / 2,
-      width: width * 0.7,
-      height: width * 0.7
+      x: (width - width * 0.8) / 2,
+      y: (height - width * 0.8) / 2,
+      width: width * 0.8,
+      height: width * 0.8
     }
   },
-  one: {
+  avatar: {
     id: 'cropper',
     width: width,
     height: height - 0.2 * width,
     scale: 2.5,
     zoom: 8,
     cut: {
-      x: (width - width * 0.7) / 2,
-      y: (height - width * 0.7) / 2,
-      width: width * 0.3,
-      height: width * 0.7
-    }
-  },
-  two: {
-    id: 'cropper',
-    width: width,
-    height: height - 0.2 * width,
-    scale: 2.5,
-    zoom: 8,
-    cut: {
-      x: (width - width * 0.7) / 2,
-      y: (height - width * 0.7) / 2,
-      width: width * 0.5,
-      height: width * 0.7
+      x: (width - width * 0.8) / 2,
+      y: (height - width * 0.6) / 2,
+      width: width * 0.8,
+      height: width * 0.6
     }
   }
 }
