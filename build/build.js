@@ -1,10 +1,11 @@
 require('./check-versions')()
 
+var chalk = require('chalk')
 var utils = require('./utils')
 
 process.env.NODE_ENV = 'production'
-process.env.BUILD_ENV = process.argv[2] || 'production'
 
+process.env.BUILD_ENV = process.argv[2] || 'production'
 if (process.env.BUILD_ENV === 'production') {
   if (!process.argv[3]) {
     console.log(chalk.red('  Do you know you are building with Production?\n'))
@@ -12,12 +13,11 @@ if (process.env.BUILD_ENV === 'production') {
     process.exit(1)
   }
 }
-process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 
+process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
-var chalk = require('chalk')
 var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.prod.conf')

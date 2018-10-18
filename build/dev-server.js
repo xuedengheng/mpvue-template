@@ -1,5 +1,6 @@
 require('./check-versions')()
 
+var chalk = require('chalk')
 var config = require('../config')
 var utils = require('./utils')
 
