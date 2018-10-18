@@ -9,7 +9,7 @@
     "dev": "node build/dev-server.js",
     "test": "node build/dev-server.js test",
     "prod": "node build/dev-server.js production",
-    "build": "rimraf dist && node build/build.js",
+    "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {

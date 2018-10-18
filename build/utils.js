@@ -85,3 +85,8 @@ exports.styleLoaders = function (options) {
   }
   return output
 }
+
+
+exports.initialVersion = function(version) {
+  return "'" + version + "'"
+}

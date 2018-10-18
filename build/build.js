@@ -1,7 +1,18 @@
 require('./check-versions')()
 
+var utils = require('./utils')
+
 process.env.NODE_ENV = 'production'
 process.env.BUILD_ENV = process.argv[2] || 'production'
+
+if (process.env.BUILD_ENV === 'production') {
+  if (!process.argv[3]) {
+    console.log(chalk.red('  Do you know you are building with Production?\n'))
+    console.log(chalk.red('  Please Ask For Backend With The Version NOW! NOW! NOW! NOW!\n'))
+    process.exit(1)
+  }
+}
+process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 
 var ora = require('ora')
 var rm = require('rimraf')

@@ -1,11 +1,22 @@
 require('./check-versions')()
 
 var config = require('../config')
+var utils = require('./utils')
+
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
 
 process.env.BUILD_ENV = process.argv[2]
+
+if (process.env.BUILD_ENV === 'production') {
+  if (!process.argv[3]) {
+    console.log(chalk.red('  Do you know you are building with Production?\n'))
+    console.log(chalk.red('  Please Ask For Backend With The Version NOW! NOW! NOW! NOW!\n'))
+    process.exit(1)
+  }
+}
+process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 
 // var opn = require('opn')
 var path = require('path')

@@ -11,6 +11,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = process.env.BUILD_ENV === 'production' ? require('../config/prod.env') : require('../config/test.env')
+env.VERSION = process.env.VERSION
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
