@@ -10,13 +10,15 @@
     <div v-if="!translucent" :style="{height: statusBarHeight + 44 + 'px'}"></div>
   </div>
 </template>
-
 <script type="text/ecmascript-6">
   /* eslint-disable no-undef */
   import wx from 'wx'
   import app from '@/main'
-
-  const DEFAULT_PAGE = app.config.pages[0].replace('^', '/')
+  function pageRouter() {
+    let page = app.config.pages.find(item => /\^/.test(item))
+    return page.replace('^', '/')
+  }
+  const DEFAULT_PAGE = pageRouter()
   export default {
     name: 'HEAD_ITEM',
     props: {
@@ -121,6 +123,7 @@
     }
   }
 </script>
+
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .head-item

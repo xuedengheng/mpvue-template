@@ -1,6 +1,6 @@
 <template>
   <div class="demo">
-    <head-item title="我的" :showArrow="false" :translucent="false"></head-item>
+    <navigation-bar title="我的" :showArrow="false" :translucent="true"></navigation-bar>
     <img style="width: 100%" mode="widthFix" v-if="imageUrl" :src="imageUrl + '/zd-image/test-img/1@1x.png'" alt="">
     <button @click="editorAvatar">切图</button>
     <we-paint ref="wePaint" @drawDone="drawDone"></we-paint>
@@ -17,19 +17,22 @@
   import WePaint from 'components/we-paint/we-paint'
   // import { mapGetters } from 'vuex'
   import Child from './child/child'
-  import HeadItem from 'components/head-item/head-item'
+  import NavigationBar from 'components/navigation-bar/navigation-bar'
 
   export default {
     components: {
       WePaint,
       Child,
-      HeadItem
+      NavigationBar
     },
     beforeCreate() {
     },
     data() {
       return {
         testSrc: ''
+        // title: '',
+        // headStyle: 'background: rgba(255, 255, 255, 0)',
+        // titleColor: 'white'
       }
     },
     onShow() {
@@ -40,6 +43,17 @@
     computed: {
       // ...mapGetters(['role'])
     },
+    // onPageScroll(e) {
+    //   if (e.scrollTop >= 100) {
+    //     this.headStyle = 'background: rgba(255, 255, 255, 1)'
+    //     this.titleColor = '#000000'
+    //     this.title = '导购'
+    //   } else {
+    //     this.headStyle = 'background: rgba(255, 255, 255, 0)'
+    //     this.titleColor = 'white'
+    //     this.title = ''
+    //   }
+    // },
     methods: {
       navTo() {
         this.$wx.navigateTo({url: `/pages/other-page`})
