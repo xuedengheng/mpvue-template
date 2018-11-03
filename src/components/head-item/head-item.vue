@@ -14,7 +14,9 @@
 <script type="text/ecmascript-6">
   /* eslint-disable no-undef */
   import wx from 'wx'
-  const DEFAULT_PAGE = `/pages/guide`
+  import app from '@/main'
+
+  const DEFAULT_PAGE = app.config.pages[0].replace('^', '/')
   export default {
     name: 'HEAD_ITEM',
     props: {

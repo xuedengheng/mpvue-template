@@ -1,4 +1,4 @@
-// // 不需要自动重置data数据的页面
+// 不需要自动重置data数据的页面
 const unResetPage = []
 
 export default {
