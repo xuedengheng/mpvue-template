@@ -9,26 +9,35 @@ export default {
     }
   },
   onLoad() {
-    // 记录页面栈
-    let url = this.$root.$mp.page.route
-    let status = this.$checkIsTabPage(url)
-    let query = this.$root.$mp.query
-    if (!status) {
-      let string = ''
-      for (let value in query) {
-        string = `&${value}=${query[value]}`
-      }
-      url = string ? `${url}?${string.slice(1)}` : url
-    }
-    if (url.includes('pages/error') || url.includes('pages/error-network')) {
-      return
-    }
-    wx.setStorageSync('errorUrl', url)
+    this._saveCurrentPage()
   },
   onUnload() {
     this._resetData()
+    this._clearWatcher()
   },
   methods: {
+    _saveCurrentPage() {
+      // 记录页面栈
+      let url = this.$root.$mp.page.route
+      let status = this.$checkIsTabPage(url)
+      let query = this.$root.$mp.query
+      if (!status) {
+        let string = ''
+        for (let value in query) {
+          string = `&${value}=${query[value]}`
+        }
+        url = string ? `${url}?${string.slice(1)}` : url
+      }
+      if (url.includes('pages/error') || url.includes('pages/error-network')) {
+        return
+      }
+      this.$wx.setStorageSync('errorUrl', url)
+    },
+    _clearWatcher() {
+      // 清除mpvue的wathcers
+      this._watchers = []
+      this._watcher && this._watcher.teardown()
+    },
     _resetData() {
       // 重置页面组件的data数据
       if (!this.$mp) return

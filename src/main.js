@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import App from './App'
-import './utils/app-plugins'
-import './utils/env-clear'
+import 'utils/env-clear'
 
 Vue.config.productionTip = false
 App.mpType = 'app'
@@ -22,7 +21,8 @@ export default {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
+      navigationStyle: 'custom' // 自定义导航栏
     }
   }
 }

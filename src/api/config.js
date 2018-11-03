@@ -1,6 +1,6 @@
 const env = process.env.NODE_ENV
+const version = process.env.VERSION
 
-const version = ``
 // todo 测试专用记得更新
 const DEV = {
   api: 'https://zhidian-api.jerryf.cn',
@@ -10,9 +10,9 @@ const DEV = {
 }
 
 const TEST = {
-  api: 'https://zhidian-api.jkweixin.net' + version,
+  api: 'https://zhidian-api.jkweixin.net',
   image: 'https://img.jkweixin.net/defaults',
-  upload: 'https://zhidian-api.jkweixin.net' + version,
+  upload: 'https://zhidian-api.jkweixin.net',
   imRecord: 'https://data-analysis-api.jkweixin.net'
 }
 

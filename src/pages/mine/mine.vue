@@ -1,24 +1,31 @@
 <template>
   <div class="demo">
+    <head-item title="我的" :showArrow="false" :translucent="false"></head-item>
+    <img style="width: 100%" mode="widthFix" v-if="imageUrl" :src="imageUrl + '/zd-image/test-img/1@1x.png'" alt="">
     <button @click="editorAvatar">切图</button>
     <we-paint ref="wePaint" @drawDone="drawDone"></we-paint>
     <button @click="createQrCode">生成二维码</button>
     <button @click="testToast">toast</button>
     <img style="width: 100%" mode="widthFix" v-if="testSrc" :src="testSrc" alt="">
+    <child></child>
+    <button @click="navTo">跳转other页面</button>
   </div>
 
 </template>
 
 <script type="text/ecmascript-6">
-  import clearWatch from 'common/mixins/clear-watch'
   import WePaint from 'components/we-paint/we-paint'
-  import qr from 'qr-image'
-  import { arrayBufferToBase64 } from 'common/js/util'
+  // import { mapGetters } from 'vuex'
+  import Child from './child/child'
+  import HeadItem from 'components/head-item/head-item'
 
   export default {
-    mixins: [clearWatch],
     components: {
-      WePaint
+      WePaint,
+      Child,
+      HeadItem
+    },
+    beforeCreate() {
     },
     data() {
       return {
@@ -30,14 +37,20 @@
         this.testSrc = getApp().globalData.imgUrl
       }
     },
+    computed: {
+      // ...mapGetters(['role'])
+    },
     methods: {
+      navTo() {
+        this.$wx.navigateTo({url: `/pages/other-page`})
+      },
       testToast() {
         this.$wechat.showToast('123123')
       },
       createQrCode() {
         let str = JSON.stringify({ 'code': 8297128291, 'store_id': 8 }) // todo
-        let code = qr.imageSync(str, { type: 'png' })
-        let img = arrayBufferToBase64(code)
+        let img = this.$createQrCode.png(str) // png
+        img = this.$createQrCode.svg(str) // svg
         this.testSrc = img
       },
       async editorAvatar() {
@@ -52,102 +65,6 @@
       }
     }
   }
-  // todo() {
-  //   let options = {
-  //     canvasId: 'we-paint',
-  //     multiple: 1,
-  //     panel: {
-  //       el: '.panel'
-  //     },
-  //     els: [
-  //       {
-  //         el: '.panel',
-  //         drawType: 'rect',
-  //         color: '#fff'
-  //       },
-  //       {
-  //         el: '.h-avatar',
-  //         drawType: 'img',
-  //         source: this.avatarUrlTmp,
-  //         mode: 'aspectFill',
-  //         unLoad: false
-  //       },
-  //       {
-  //         el: '.h-bg',
-  //         drawType: 'img',
-  //         source: this.imageUrl + '/zd-image/dynamic/bg-card_trends@2x.png',
-  //         unLoad: false
-  //       },
-  //       {
-  //         el: '.h-name',
-  //         drawType: 'text',
-  //         source: this.name,
-  //         fontSize: 20,
-  //         align: 'center',
-  //         color: '#fff',
-  //         yAdjust: -3
-  //       },
-  //       {
-  //         el: '.h-title',
-  //         drawType: 'text',
-  //         source: this.hTitle,
-  //         fontSize: 12,
-  //         align: 'center',
-  //         color: '#fff',
-  //         yAdjust: -3
-  //       },
-  //       {
-  //         el: '#icon',
-  //         drawType: 'img',
-  //         source: this.imageUrl + '/zd-image/dynamic/icon-time@2x.png',
-  //         unLoad: false
-  //       },
-  //       {
-  //         el: '#time',
-  //         drawType: 'text',
-  //         source: createdAt,
-  //         fontSize: 12,
-  //         color: '#828AA2',
-  //         yAdjust: -3
-  //       },
-  //       {
-  //         el: '.content > .words',
-  //         drawType: 'text-area',
-  //         source: content,
-  //         fontSize: 16,
-  //         color: '#333'
-  //       },
-  //       {
-  //         el: cnameImgs,
-  //         drawType: 'img',
-  //         isSelectAll: true,
-  //         sourceArr: newImgArr,
-  //         mode: modeImgs,
-  //         unLoad: false
-  //       },
-  //       {
-  //         el: '.right > .txt',
-  //         drawType: 'text',
-  //         isSelectAll: true,
-  //         sourceArr: this.qrCodeTxt,
-  //         color: '#828AA2',
-  //         fontSize: 12
-  //       },
-  //       {
-  //         el: '.line',
-  //         drawType: 'rect',
-  //         color: '#EDEDEF'
-  //       },
-  //       {
-  //         el: '.qr-code-wrapper',
-  //         drawType: 'img',
-  //         source: this.qrCodeUrlTmp,
-  //         unLoad: false
-  //       }
-  //     ]
-  //   }
-  //   this.$refs.wePaint.action(options)
-  // },
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
