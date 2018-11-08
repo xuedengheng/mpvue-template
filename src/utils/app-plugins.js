@@ -8,6 +8,7 @@ import * as cos from './we-cos/upload'
 import {fileType} from './we-cos/fileConfig'
 import baseCommon from 'common/mixins/base-common'
 import base from 'common/mixins/base'
+import createQrCode from './create-qr-code'
 
 // 定义插件
 const AppPlugin = {
@@ -24,6 +25,7 @@ const AppPlugin = {
     Vue.prototype.$cos = cos
     Vue.prototype.$cosFileType = fileType
     Vue.prototype.$store = store
+    Vue.prototype.$createQrCode = createQrCode
   }
 }
 // 使用插件

@@ -5,5 +5,7 @@ import * as types from './mutation-types'
 // }
 
 export const saveRole = ({commit, state}, role) => {
-  commit(types.ROLE_TYPE, role)
+  setTimeout(() => {
+    commit(types.ROLE_TYPE, role)
+  }, 5000)
 }
