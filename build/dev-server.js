@@ -1,11 +1,17 @@
 require('./check-versions')()
 
+process.env.PLATFORM = process.argv[2] || 'wx'
 var config = require('../config')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
+var getParams = require('./build.utils')
+let params = getParams(process.argv)
 
-process.env.BUILD_ENV = process.argv[2]
+process.env.BUILD_ENV = params.environments
+process.env.VERSION = params.versions
+process.env.APPLICATION = params.applications
+console.log(Object.assign(params, {platform: process.env.PLATFORM}))
 
 // var opn = require('opn')
 var path = require('path')
@@ -14,6 +20,7 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var portfinder = require('portfinder')
 var webpackConfig = require('./webpack.dev.conf')
+var utils = require('./utils')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -25,6 +32,9 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 var compiler = webpack(webpackConfig)
+if (process.env.PLATFORM === 'swan') {
+  utils.writeFrameworkinfo()
+}
 
 // var devMiddleware = require('webpack-dev-middleware')(compiler, {
 //   publicPath: webpackConfig.output.publicPath,

@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <div class="head-item" :style="headStyle">
+  <div id="navigationBar">
+    <div class="head-item" :style="headStyleData" :class="showTitle ? '' : 'showNavigation'">
       <div class="status-bar" :style="{height: statusBarHeight + 'px'}"></div>
-      <div class="head-content" :style="{color: titleColor}">{{currentTitle}}</div>
-      <div class="head-arrow" v-if="showArrow" @click="goBackUrl">
-        <img v-if="imageUrl" :src="imageUrl + '/zd-image/1.2/icon-title_back@2x.png'" class="head-arrow-img">
+      <div class="head-content" :style="{color: titleColor}">
+        {{currentTitle}}
+        <div class="head-arrow" v-if="showArrow" @click="goBackUrl">
+          <img src="./icon-title_back@2x.png" class="head-arrow-img">
+        </div>
       </div>
     </div>
     <div v-if="!translucent" :style="{height: statusBarHeight + 44 + 'px'}"></div>
@@ -13,12 +15,14 @@
 <script type="text/ecmascript-6">
   /* eslint-disable no-undef */
   import wx from 'wx'
-  import app from '@/main'
+  import app from '@src/app.json'
+
   function pageRouter() {
-    let page = app.config.pages.find(item => /\^/.test(item))
-    return page.replace('^', '/')
+    return '/' + app.pages[0]
   }
-  const DEFAULT_PAGE = pageRouter()
+
+  let DEFAULT_PAGE = pageRouter()
+
   export default {
     name: 'HEAD_ITEM',
     props: {
@@ -56,23 +60,56 @@
       hasTranslucentFn: {
         type: Boolean,
         default: false
+      },
+      arrowUrl: {
+        type: String,
+        default: '/zd-image/1.2/icon-title_back@2x.png'
+      },
+      hasTranslucentHeight: {
+        type: Number,
+        default: 100
+      },
+      exceedHeightFn: {
+        type: Boolean,
+        default: true
+      },
+      exceedHeight: {
+        type: Number,
+        default: 100
+      },
+      titleMaxLen: {
+        type: Number,
+        default: 10
       }
     },
     onPageScroll(e) {
       this._diyHeadNavigation(e)
+      this._exceedHeadShow(e)
     },
-    data () {
+    data() {
       return {
         statusBarHeight: 20,
-        translucentTitle: this.title
+        translucentTitle: this.title,
+        headStyleData: this.headStyle,
+        titleColorData: this.titleColor,
+        showTitle: true
       }
     },
     created() {
-      let res = this.$wx.getSystemInfoSync()
+      let res = mpvue.getSystemInfoSync()
       this.statusBarHeight = res.statusBarHeight || 20
       this._initHeadStyle()
     },
     methods: {
+      setNavigationBarTitle(title) {
+        this.translucentTitle = title
+      },
+      setNavigationBarBackground(styles) {
+        this.headStyleData = styles
+      },
+      getStatusBarHeight() {
+        return this.statusBarHeight
+      },
       _diyHeadNavigation(e) {
         // 是否为沉浸式
         if (!this.translucent) return
@@ -82,20 +119,21 @@
           return
         }
         // 沉浸式滚动时的效果
-        if (e.scrollTop >= 100) {
-          this.headStyle = 'background: rgba(255, 255, 255, 1)'
-          this.titleColor = '#000000'
-          this.title = this.translucentTitle
+        if (e.scrollTop >= this.hasTranslucentHeight) {
+          this.headStyleData = 'background: rgba(255, 255, 255, 1)'
+          this.titleColorData = '#000000'
+          this.translucentTitle = this.title
         } else {
-          this.headStyle = 'background: rgba(255, 255, 255, 0)'
-          this.titleColor = 'white'
-          this.title = ''
+          this.headStyleData = 'background: rgba(255, 255, 255, 0)'
+          this.titleColorData = 'white'
+          this.translucentTitle = ''
         }
       },
       _initHeadStyle() {
         if (this.translucent) {
-          this.headStyle = 'background: rgba(255, 255, 255, 0)'
-          this.titleColor = 'transparent'
+          this.headStyleData = 'background: rgba(255, 255, 255, 0)'
+          this.titleColorData = 'transparent'
+          this.translucentTitle = ''
         }
       },
       goBackUrl() {
@@ -110,14 +148,27 @@
         } else {
           wx.navigateBack({delta: 1})
         }
+      },
+      _exceedHeadShow(e) {
+        if (this.exceedHeightFn) return
+        // 沉浸式滚动时的效果
+        if (e.scrollTop >= this.exceedHeight) {
+          this.showTitle = false
+        } else {
+          this.showTitle = true
+        }
+      },
+      setTranslucentTitle(title) {
+        if (this.translucentTitle === title) return
+        this.translucentTitle = title
       }
     },
     computed: {
       currentTitle() {
-        if (this.title.length > 10) {
-          return this.title.slice(0, 10) + '···'
+        if (this.translucentTitle.length > this.titleMaxLen) {
+          return this.translucentTitle.slice(0, this.titleMaxLen) + '···'
         } else {
-          return this.title
+          return this.translucentTitle
         }
       }
     }
@@ -133,29 +184,37 @@
     left: 0
     top: 0
     z-index: 100
+
     .head-arrow
       position: absolute
-      width: 20px
-      height: 20px
-      left: 5px
-      bottom: 11px
+      left: 0
+      bottom: 0
+      height: 100%
+      width: 40px
       display: flex
-      justify-content: center
       align-items: center
+
       &:after
         content: ''
-        position :absolute
-        width :100%
-        height :100%
-        padding :12px 20px
+        position: absolute
+        width: 100%
+        height: 100%
+        padding: 12px 20px
+
       .head-arrow-img
+        display: block
+        margin-left: 5px
         width: 18px
         height: @width
+
     .head-content
+      position: relative
       text-align: center
       line-height: 44px
       height: 44px
       font-size: 18px
       font-family: PingFangSC-Medium
       color: #000000
+  .showNavigation
+    opacity: 0
 </style>

@@ -12,7 +12,6 @@ module.exports = {
     es6: true
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
-  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
@@ -33,7 +32,13 @@ module.exports = {
     App: true,
     Page: true,
     wx: true,
+    swan: true,
+    tt: true,
+    my: true,
     getApp: true,
-    getPage: true
+    getPage: true,
+    requirePlugin: true,
+    mpvue: true,
+    mpvuePlatform: true
   }
 }

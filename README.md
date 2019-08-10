@@ -1,96 +1,58 @@
-# {{ project }}
+# exchange-client
 
-> {{ description }}
-
-
-## 相关依赖
-
-* flyio - 同时支持浏览器、小程序、Node、Weex 及快应用的基于 Promise 的跨平台请求库
-* mpvue-entry - 集中式页面配置，不再需要重复编辑各页面的 main.js 文件
-* mpvue-router-patch - 在 mpvue 中使用 vue-router 兼容的路由写法
-
-## Tips
-
-* alias配置，方便引用
-
-``` js
-alias: {
-  'vue': 'mpvue',
-  '@': resolve('src'),
-  'components': resolve('src/components'),
-  'api': resolve('src/api'),
-  'common': resolve('src/common'),
-  'wx': resolve('src/common/js/wx'),
-  'flyio': 'flyio/dist/npm/wx'
-}
-```
-
-* vuex
-
-创建 `src/store/index.js` 文件
-
-``` js
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as actions from './actions'
-import * as getters from './getters'
-import state from './state'
-import mutations from './mutations'
-import createLogger from 'vuex/dist/logger'
-
-Vue.use(Vuex)
-
-const debug = process.env.NODE_ENV !== 'production'
-
-export default new Vuex.Store({
-  actions,
-  getters,
-  state,
-  mutations,
-  strict: debug,
-  plugins: debug ? [createLogger()] : []
-})
-```
-
-在 `src/main.js` 中引用
-
-``` js
-import Vue from 'vue'
-import store from '@/store'
-import App from '@/App'
-
-const app = new Vue({
-  store,
-  ...App
-}).$mount()
-```
-
-具体使用流程参照vuex官网
-
-
+> 兑换商城-C端-消费者小程序
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
+# 初始化项目
+vue init mpvue/mpvue-quickstart myproject
+cd myproject
 
-# serve with hot reload at localhost:8080
-npm run dev 开发环境
+# 安装依赖
+yarn
 
-# serve with hot reload at localhost:8080
-npm run test 测试环境
+# 开发时构建
+npm dev
 
-# serve with hot reload at localhost:8080
-npm run prod 线上环境
+# 打包构建
+npm build
 
-# build for production:test with minification
-npm run build:test 打包测试环境
+# 指定平台的开发时构建(微信、百度、头条、支付宝)
+npm dev:wx
+npm dev:swan
+npm dev:tt
+npm dev:my
 
-# build for production:prod with minification
-npm run build:prod 打包正式环境
+# 指定平台的打包构建
+npm build:wx
+npm build:swan
+npm build:tt
+npm build:my
 
-
+# 生成 bundle 分析报告
+npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+# hygen 创建page改动
+
+1. 使用npm run new 创建 page时，自动写入了modules文件,需要去除state中todo属性，改vuex才会自动加载至store中
+
+```js
+export const state = {
+  todo: true // 待删除
+}
+
+export const getters = {}
+
+export const mutations = {}
+
+export const actions = {}
+
+```
+
+# http 改动
+
+> 请查看utils/http-help.md
