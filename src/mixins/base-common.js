@@ -1,3 +1,4 @@
+import Routes from '@utils/routes'
 // 不需要自动重置data数据的页
 const unResetPage = []
 
@@ -5,7 +6,7 @@ export default {
   data() {
     return {
       imageUrl: this.$imageUrl,
-      $routes: this.$routes
+      $routes: Routes
     }
   },
   onLoad() {
