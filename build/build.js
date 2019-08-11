@@ -1,5 +1,8 @@
 require('./check-versions')()
 
+var chalk = require('chalk')
+var utils = require('./utils')
+
 process.env.NODE_ENV = 'production'
 process.env.PLATFORM = process.argv[2] || 'wx'
 
@@ -11,10 +14,10 @@ process.env.VERSION = params.versions
 process.env.APPLICATION = params.applications
 console.log(Object.assign(params, {platform: process.env.PLATFORM}))
 
+process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
-var chalk = require('chalk')
 var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.prod.conf')
