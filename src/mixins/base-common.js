@@ -18,6 +18,7 @@ export default {
   methods: {
     _clearWatcher() {
       // 清除mpvue的wathcers
+      if (!this.$mp) return
       this._watchers = []
       this._watcher && this._watcher.teardown()
     },

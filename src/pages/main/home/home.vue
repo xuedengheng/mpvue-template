@@ -7,7 +7,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  // import * as Helpers from './helpers'
+  // import * as Helpers from './modules/helpers'
   import API from '@api'
   import NavigationBar from '@components/navigation-bar/navigation-bar'
   import chooseFiles from '@utils/we-cos/upload'

@@ -12,7 +12,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  // import * as Helpers from './helpers'
+  // import * as Helpers from './modules/helpers'
   import NavigationBar from '@components/navigation-bar/navigation-bar'
   import AppPromise from '@utils/app-promise'
   import WePaint from '@components/we-paint/we-paint'

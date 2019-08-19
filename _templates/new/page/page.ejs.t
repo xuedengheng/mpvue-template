@@ -9,7 +9,7 @@ to: "src/pages/<%= h.inflection.dasherize(package[0]) %>/<%= h.inflection.dasher
 </template>
 
 <script type="text/ecmascript-6">
-  // import * as Helpers from './helpers'
+  // import * as Helpers from './modules/helpers'
   // import API from '@api'
   import NavigationBar from '@components/navigation-bar/navigation-bar'
 
@@ -23,6 +23,12 @@ to: "src/pages/<%= h.inflection.dasherize(package[0]) %>/<%= h.inflection.dasher
     data() {
       return {
       }
+    },
+    computed: {
+      // ...Helpers.computed,
+    },
+    methods: {
+      // ...Helpers.methods,
     }
   }
 </script>

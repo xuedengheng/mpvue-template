@@ -1,6 +1,6 @@
-# exchange-client
+# {{ project }}
 
-> 兑换商城-C端-消费者小程序
+> {{ description }}
 
 ## Build Setup
 
