@@ -1,29 +1,25 @@
 require('./check-versions')()
 
-var chalk = require('chalk')
-var utils = require('./utils')
-
 process.env.NODE_ENV = 'production'
 process.env.PLATFORM = process.argv[2] || 'wx'
-
 var getParams = require('./build.utils')
-let params = getParams(process.argv)
 
+let params = getParams(process.argv)
 process.env.BUILD_ENV = params.environments
 process.env.VERSION = params.versions
 process.env.APPLICATION = params.applications
 console.log(Object.assign(params, {platform: process.env.PLATFORM}))
 
-process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
+var chalk = require('chalk')
 var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.prod.conf')
 var utils = require('./utils')
 
-var spinner = ora('building for production...')
+var spinner = ora(`building for ${process.env.BUILD_ENV}...`)
 spinner.start()
 
 rm(path.join(config.build.assetsRoot, '*'), err => {
