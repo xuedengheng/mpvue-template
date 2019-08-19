@@ -1,8 +1,12 @@
 ---
 to: "src/pages/<%= h.inflection.dasherize(package[0]) %>/<%= h.inflection.dasherize(name) %>/modules/helpers.js"
 ---
-// import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
+// import {mapGetters, mapActions, mapMutations} from 'vuex'
 //
-// export const <%= h.changeCase.camelCase(name)%>Computed = {
-//   ...mapGetters('<%= h.changeCase.camelCase(name)%>', [])
+// export const computed = {
+//   ...mapGetters('<%= h.changeCase.camelCase(name.replace('_', ''))%>', [])
+// }
+// export const methods = {
+//   ...mapActions('<%= h.changeCase.camelCase(name.replace('_', ''))%>', []),
+//   ...mapMutations('<%= h.changeCase.camelCase(name.replace('_', ''))%>', []),
 // }
