@@ -1,26 +1,23 @@
 require('./check-versions')()
 
-var chalk = require('chalk')
-var utils = require('./utils')
-
 process.env.NODE_ENV = 'production'
+process.env.PLATFORM = process.argv[2] || 'wx'
+var getParams = require('./build.utils')
 
-process.env.BUILD_ENV = process.argv[2] || 'production'
-if (process.env.BUILD_ENV === 'production') {
-  if (!process.argv[3]) {
-    console.log(chalk.red('  Do you know you are building with Production?\n'))
-    console.log(chalk.red('  Please Ask For Backend With The Version NOW! NOW! NOW! NOW!\n'))
-    process.exit(1)
-  }
-}
+let params = getParams(process.argv)
+process.env.BUILD_ENV = params.environments
+process.env.VERSION = params.versions
+process.env.APPLICATION = params.applications
+console.log(Object.assign(params, {platform: process.env.PLATFORM}))
 
-process.env.VERSION = utils.initialVersion(process.argv[3] || '')
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
+var chalk = require('chalk')
 var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.prod.conf')
+var utils = require('./utils')
 
 var spinner = ora(`building for ${process.env.BUILD_ENV}...`)
 spinner.start()
@@ -30,6 +27,9 @@ rm(path.join(config.build.assetsRoot, '*'), err => {
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()
     if (err) throw err
+    if (process.env.PLATFORM === 'swan') {
+      utils.writeFrameworkinfo()
+    }
     process.stdout.write(stats.toString({
       colors: true,
       modules: false,

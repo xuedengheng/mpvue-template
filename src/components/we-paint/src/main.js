@@ -44,6 +44,10 @@ class Paint {
         this.PaintFigure.drawRect(item)
         break
       }
+      case 'rect-shadow': {
+        this.PaintFigure.drawRectShadow(item)
+        break
+      }
       default:
         break
     }

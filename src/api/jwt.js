@@ -1,9 +1,9 @@
-import request from 'common/js/request'
+import request from '@utils/http'
 
 export default {
   // 授权
-  getToken(data, loading) {
+  getToken(args) {
     const url = `/api/jwt/customer/login`
-    return request.post(url, data, loading)
+    return request.get({url, ...args})
   }
 }

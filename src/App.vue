@@ -1,30 +1,23 @@
 <script>
-  import { mapActions } from 'vuex'
-  import 'utils/app-plugins'
-
-  export default {
-    created() {
-      // 调用API从本地缓存中获取数据
-      const logs = wx.getStorageSync('logs') || []
-      logs.unshift(Date.now())
-      wx.setStorageSync('logs', logs)
-
-      console.log('app created and cache logs by setStorageSync')
-    },
-    onShow() {
-      // todo
-      this.updateProduct(123123)
-      this.saveRole('我role是店长')
-      this.doRole('vuex延迟5s加载中....')
-      this.doW('ahsdjkhaskdjhadjahkdahkdkajhsakds')
-    },
-    methods: {
-      ...mapActions('hello', ['updateProduct', 'doRole', 'doW']), // todo
-      ...mapActions(['saveRole']) // todo
-    }
+import AppPromise from '@utils/app-promise'
+export default {
+  created () {
+    // 调用API从本地缓存中获取数据
+    /*
+     * 平台 api 差异的处理方式:  api 方法统一挂载到 mpvue 名称空间, 平台判断通过 mpvuePlatform 特征字符串
+     * 微信：mpvue === wx, mpvuePlatform === 'wx'
+     * 头条：mpvue === tt, mpvuePlatform === 'tt'
+     * 百度：mpvue === swan, mpvuePlatform === 'swan'
+     * 支付宝(蚂蚁)：mpvue === my, mpvuePlatform === 'my'
+     */
+  },
+  onShow() {
+    AppPromise.getInstance(resolve => {     // eslint-disable-line
+      console.log('app on show 延迟5s!!!')
+      setTimeout(() => {
+        resolve(true)
+      }, 5000)
+    })
   }
+}
 </script>
-
-<style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "common/stylus/index.styl"
-</style>

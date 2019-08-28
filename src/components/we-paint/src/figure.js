@@ -146,4 +146,28 @@ export default function () {
     ctx.fillRect(x, y, w, h)
     ctx.restore()
   }
+  /**
+   * 填充矩形阴影
+   * @param color
+   * @param res
+   * @param xAdjust
+   * @param yAdjust
+   */
+  self.PaintFigure.drawRectShadow = (item) => {
+    let { color = '#fff', top, left, width, height, xAdjust = 0, yAdjust = 0 } = item
+    let x = (left + rPos.left + xAdjust) * multiple
+    let y = (top + rPos.top + yAdjust) * multiple
+    let w = width * multiple
+    let h = height * multiple
+    let offsetX = item.shadow[0] * multiple
+    let offsetY = item.shadow[1] * multiple
+    let blur = item.shadow[2] * multiple
+    let shadowColor = item.shadow[3]
+    ctx.save()
+    ctx.beginPath()
+    ctx.setFillStyle(color)
+    ctx.setShadow(offsetX, offsetY, blur, shadowColor)
+    ctx.fillRect(x, y, w, h)
+    ctx.restore()
+  }
 }

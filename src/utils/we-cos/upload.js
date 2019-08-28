@@ -1,6 +1,6 @@
 import COS from './libs/cos-wx-sdk-v5'
 import Upload from './api-upload'
-import { ERR_OK } from 'api/config'
+import { ERR_OK } from '@utils/config'
 import { fileType } from './fileConfig'
 
 const SIGN_ERROR = 1
@@ -16,6 +16,7 @@ const {IMAGE_TYPE, VIDEO_TYPE} = fileType
 let cos = new COS({
   getAuthorization: function (params, callback) {
     Upload.getUploadSign().then((res) => {
+      console.log(res, 222)
       if (res.error !== ERR_OK) {
         throw new Error(res)
       }
@@ -36,13 +37,14 @@ let cos = new COS({
  * @param count 选择数量
  * @returns {Promise}
  */
-export default function chooseFiles(fileType, count = 9, showProcess, processCallBack) {
+export default function chooseFiles(fileType = IMAGE_TYPE, count = 9, showProcess, processCallBack) {
   return new Promise((resolve, reject) => {
     fileController(fileType, count).then((filePaths) => {
       showProcess && showProcess()
       let type = fileType === VIDEO_TYPE ? 'video' : 'image'
       let requests = filePaths.map((filePath) => {
         return Upload.getUploadParam().then((res) => {
+          console.log(res, 111)
           if (res.error !== ERR_OK) {
             throw new Error(res)
           }

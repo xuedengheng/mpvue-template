@@ -1,23 +1,17 @@
 require('./check-versions')()
 
-var chalk = require('chalk')
+process.env.PLATFORM = process.argv[2] || 'wx'
 var config = require('../config')
-var utils = require('./utils')
-
+// var utils = require('./utils')
+var getParams = require('./build.utils')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
-
-process.env.BUILD_ENV = process.argv[2]
-
-if (process.env.BUILD_ENV === 'production') {
-  if (!process.argv[3]) {
-    console.log(chalk.red('  Do you know you are building with Production?\n'))
-    console.log(chalk.red('  Please Ask For Backend With The Version NOW! NOW! NOW! NOW!\n'))
-    process.exit(1)
-  }
-}
-process.env.VERSION = utils.initialVersion(process.argv[3] || '')
+let params = getParams(process.argv)
+console.log(Object.assign(params, {platform: process.env.PLATFORM}))
+process.env.BUILD_ENV = params.environments
+process.env.VERSION = params.versions
+process.env.APPLICATION = params.applications
 
 // var opn = require('opn')
 var path = require('path')
@@ -26,6 +20,7 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var portfinder = require('portfinder')
 var webpackConfig = require('./webpack.dev.conf')
+var utils = require('./utils')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -37,6 +32,9 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 var compiler = webpack(webpackConfig)
+if (process.env.PLATFORM === 'swan') {
+  utils.writeFrameworkinfo()
+}
 
 // var devMiddleware = require('webpack-dev-middleware')(compiler, {
 //   publicPath: webpackConfig.output.publicPath,
@@ -59,7 +57,7 @@ var compiler = webpack(webpackConfig)
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
   if (typeof options === 'string') {
-    options = { target: options }
+    options = {target: options}
   }
   app.use(proxyMiddleware(options.filter || context, options))
 })
@@ -99,21 +97,21 @@ module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = port
   portfinder.getPortPromise()
   .then(newPort => {
-      if (port !== newPort) {
-        console.log(`${port}端口被占用，开启新端口${newPort}`)
+    if (port !== newPort) {
+      console.log(`${port}端口被占用，开启新端口${newPort}`)
+    }
+    var server = app.listen(newPort, 'localhost')
+    // for 小程序的文件保存机制
+    require('webpack-dev-middleware-hard-disk')(compiler, {
+      publicPath: webpackConfig.output.publicPath,
+      quiet: true
+    })
+    resolve({
+      ready: readyPromise,
+      close: () => {
+        server.close()
       }
-      var server = app.listen(newPort, 'localhost')
-      // for 小程序的文件保存机制
-      require('webpack-dev-middleware-hard-disk')(compiler, {
-        publicPath: webpackConfig.output.publicPath,
-        quiet: true
-      })
-      resolve({
-        ready: readyPromise,
-        close: () => {
-          server.close()
-        }
-      })
+    })
   }).catch(error => {
     console.log('没有找到空闲端口，请打开任务管理器杀死进程端口再试', error)
   })
